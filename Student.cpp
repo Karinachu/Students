@@ -1,15 +1,24 @@
-
+﻿
 #include "MyLib.h"
-#include <iostream>
-
-int main()
-{
+int main() {
     vector<Studentas> grupe;
-    for (int i = 0; i < 2; i++)
-    {
-        Studentas Test;
-        std::cin >> Test;
-        grupe.push_back(Test);
+    int pasirinkimas;
+
+    std::cout << "Pasirinkite buda:\n";
+    std::cout << "1 - Ivesti rankiniu budu\n";
+    std::cout << "2 - Generuoti atsitiktinai\n";
+    std::cout << "Pasirinkimas: ";
+    std::cin >> pasirinkimas;
+
+    if (pasirinkimas == 1) {
+        grupe = ivestiStudentusRankiniuBudu();
     }
-    for (auto& Z : grupe) cout << Z;
+    else if (pasirinkimas == 2) {
+        grupe = generuotiAtsitiktiniusStudentus();
+    }
+
+    rikiuotiStudentus(grupe);
+    spausdintiLentele(grupe, true);
+
+    return 0;
 }
