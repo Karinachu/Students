@@ -7,6 +7,9 @@
 #include <iomanip>
 #include <algorithm>
 #include <random>
+#include <fstream>
+#include <sstream>
+#include <chrono>
 
 using std::string;
 using std::vector;
@@ -25,7 +28,6 @@ public:
     void rez(bool useMedian = false);
     friend std::ostream& operator<<(std::ostream& os, const Studentas& obj);
     friend std::istream& operator>>(std::istream& is, Studentas& obj);
-
     double skaiciuotiMediana() const;
     void generuotiAtsitiktiniusPazymius(int ndKiekis);
     void setVardas(const std::string& v);
@@ -35,6 +37,8 @@ public:
     std::string getVardas() const { return vardas; }
     std::string getPavarde() const { return pavarde; }
     double getRezultatas() const { return rezultatas; }
+    const std::vector<int>& getPaz() const { return paz; } 
+    int getEgzaminas() const { return egzaminas; }
 private:
     std::string vardas;
     std::string pavarde;
@@ -46,3 +50,7 @@ void spausdintiLentele(const vector<Studentas>& grupe, bool showBoth = false);
 void rikiuotiStudentus(vector<Studentas>& grupe);
 vector<Studentas> ivestiStudentusRankiniuBudu();
 vector<Studentas> generuotiAtsitiktiniusStudentus();
+vector<Studentas> nuskaitytiStudentusIsFailo(const std::string& filename);
+void generuotiStudentuFaila(int numStudents, int numHomeworks, const std::string& filename);
+void irasytiStudentusIFaila(const vector<Studentas>& students, const std::string& filename, int numHomeworks);
+void padalintiStudentus(const vector<Studentas>& grupe, vector<Studentas>& vargs, vector<Studentas>& kiet);
