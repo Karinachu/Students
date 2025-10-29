@@ -287,3 +287,39 @@ void padalintiStudentus(const vector<Studentas>& grupe, vector<Studentas>& vargs
         }
     }
 }
+void padalintiStudentus1(const std::vector<Studentas>& grupe, std::vector<Studentas>& vargs, std::vector<Studentas>& kiet) {
+    for (const auto& s : grupe) {
+        if (s.getRezultatas() < 5.0) {
+            vargs.push_back(s);
+        }
+        else {
+            kiet.push_back(s);
+        }
+    }
+}
+void padalintiStudentus2(std::vector<Studentas>& grupe,
+    std::vector<Studentas>& vargs) {
+    vargs.clear();
+    for (auto it = grupe.begin(); it != grupe.end(); ) {
+        if (it->getRezultatas() < 5.0) {
+            vargs.push_back(std::move(*it));
+            it = grupe.erase(it);
+        }
+        else {
+            ++it;
+        }
+    }
+}
+void padalintiStudentus3(std::vector<Studentas>& grupe,
+    std::vector<Studentas>& vargs) {
+    vargs.clear();
+
+    auto split = std::partition(grupe.begin(), grupe.end(),
+        [](const Studentas& s) { return s.getRezultatas() < 5.0; });
+
+    vargs.insert(vargs.end(),
+        std::make_move_iterator(grupe.begin()),
+        std::make_move_iterator(split));
+
+    grupe.erase(grupe.begin(), split);
+}

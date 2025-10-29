@@ -10,6 +10,7 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
+#include <iterator>    
 
 using std::string;
 using std::vector;
@@ -54,3 +55,7 @@ vector<Studentas> nuskaitytiStudentusIsFailo(const std::string& filename);
 void generuotiStudentuFaila(int numStudents, int numHomeworks, const std::string& filename);
 void irasytiStudentusIFaila(const vector<Studentas>& students, const std::string& filename, int numHomeworks);
 void padalintiStudentus(const vector<Studentas>& grupe, vector<Studentas>& vargs, vector<Studentas>& kiet);
+
+void padalintiStudentus1(const std::vector<Studentas>& grupe, std::vector<Studentas>& vargs, std::vector<Studentas>& kiet);
+void padalintiStudentus2(std::vector<Studentas>& grupe, std::vector<Studentas>& vargs);
+void padalintiStudentus3(std::vector<Studentas>& grupe, std::vector<Studentas>& vargs);
