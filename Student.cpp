@@ -51,35 +51,61 @@ int main() {
             string vargsiukaiFile = "vargsiukai_1000.txt";
             string kietiakiaiFile = "kietiakiai_1000.txt";
             int numHomeworks = 5;
+
+            int strategija;
+            std::cout << "Pasirinkite dalijimo strategija (1, 2, 3): ";
+            std::cin >> strategija;
+
             std::cout << "Generuojamas failas\n";
             auto start = std::chrono::high_resolution_clock::now();
             generuotiStudentuFaila(1000, numHomeworks, inputFile);
             auto end = std::chrono::high_resolution_clock::now();
             std::chrono::duration<double> diff = end - start;
             std::cout << "Failas sugeneruotas per " << diff.count() << " sekundziu\n";
+
             std::cout << "Nuskaitomi studentai is failo\n";
             start = std::chrono::high_resolution_clock::now();
-            grupe = nuskaitytiStudentusIsFailo(inputFile);
+            vector<Studentas> grupe = nuskaitytiStudentusIsFailo(inputFile);
             end = std::chrono::high_resolution_clock::now();
             diff = end - start;
             std::cout << "Studentai nuskaityti per " << diff.count() << " sekundziu\n";
-            std::cout << "Rikiuojami studentai\n";
-            start = std::chrono::high_resolution_clock::now();
+
             vector<Studentas> vargsiukai, kietiakiai;
-            rikiuotiStudentus(grupe);
-            padalintiStudentus(grupe, vargsiukai, kietiakiai);
-            rikiuotiStudentus(vargsiukai);
-            rikiuotiStudentus(kietiakiai);
+
+            std::cout << "Dalijame studentus (strategija " << strategija << ")...\n";
+            start = std::chrono::high_resolution_clock::now();
+
+            if (strategija == 1) {
+                rikiuotiStudentus(grupe);
+                padalintiStudentus1(grupe, vargsiukai, kietiakiai);
+            }
+            else if (strategija == 2) {
+                rikiuotiStudentus(grupe);
+                padalintiStudentus2(grupe, vargsiukai);
+                kietiakiai = std::move(grupe);
+            }
+            else if (strategija == 3) {
+                rikiuotiStudentus(grupe);
+                padalintiStudentus3(grupe, vargsiukai);
+                kietiakiai = std::move(grupe);
+            }
+            else {
+                std::cout << "Neteisinga strategija, naudojama 1\n";
+                padalintiStudentus1(grupe, vargsiukai, kietiakiai);
+            }
+
             end = std::chrono::high_resolution_clock::now();
             diff = end - start;
-            std::cout << "Studentai surikiuoti ir padalinti per " << diff.count() << " sekundziu\n";
-            std::cout << "irašomi failai...\n";
+            std::cout << "Studentai padalinti per " << diff.count() << " sekundziu\n";
+            size_t atmintis = (grupe.size() + vargsiukai.size() + kietiakiai.size()) * sizeof(Studentas);
+            std::cout << "Apytiksliai atminties: " << atmintis / 1024 << " KB\n";
             start = std::chrono::high_resolution_clock::now();
             irasytiStudentusIFaila(vargsiukai, vargsiukaiFile, numHomeworks);
             irasytiStudentusIFaila(kietiakiai, kietiakiaiFile, numHomeworks);
             end = std::chrono::high_resolution_clock::now();
             diff = end - start;
-            std::cout << "Failu iradymo laikas: " << diff.count() << " sekundziu\n";
+            std::cout << "Failai irasyti per " << diff.count() << " sekundziu\n";
+
             std::cout << "\nVargsiukai:\n";
             spausdintiLentele(vargsiukai, true);
             std::cout << "\nKietiakiai:\n";
